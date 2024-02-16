@@ -6,6 +6,7 @@ import time
 import logging
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.contrib.sites.models import Site 
 
 logger = logging.getLogger(__name__)
 
@@ -15,17 +16,19 @@ def send_newsletter(self):
     # Get all subscribed users
     subscribed_users = User.objects.filter(subscription_status=True)
 
-    # Send the newsletter to each subscribed user and update the logs
+ 
     for user in subscribed_users:
         log = Log.objects.create(user=user, email_status='Pending')
+        current_site = Site.objects.get_current()
+        unsubscribe_url = f"http://{current_site.domain}/unsubscribe/?email={user.email}"
         subject = latest_newsletter.title
         from_email = 'parentune@gmail.com'
         to_email = [user.email]
-        message = render_to_string('newsletter/email_template.html', {'user': user, 'newsletter': latest_newsletter})
+        context = {'user': user, 'newsletter': latest_newsletter, 'unsubscribe_url': unsubscribe_url}
+        message = render_to_string('newsletter/email_template.html', context)
         email = EmailMessage(subject, message, from_email, to_email)
         email.content_subtype = 'html'
         email.send()
-       
         log.user = user
         log.email_status = 'Sent'
         log.save()

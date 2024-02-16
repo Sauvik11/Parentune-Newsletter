@@ -1,5 +1,5 @@
 from django.views import View
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.views.generic import TemplateView
 from .models import User, Newsletter, Log
 from django.core.mail import send_mail
@@ -24,7 +24,7 @@ class Subscribe(CreateView):
 
     def form_valid(self, form):
        
-        form.instance.subscription_status = True  # Assuming subscription is true on form submission
+        form.instance.subscription_status = True 
         return super().form_valid(form)
 
 class ThankYouView(TemplateView):
@@ -43,3 +43,12 @@ class SendNewsletterView(View):
     def get(self, request, *args, **kwargs):
         send_newsletter.delay()
         return HttpResponse("Newsletter sent successfully.")
+    
+class UnsubscribeView(View):
+    def get(self, request, *args, **kwargs):
+        # Extract user email from the URL or request data
+        email = request.GET.get('email')
+        print(email,'mail')
+        user = get_object_or_404(User, email=email)
+        user.unsubscribe()
+        return HttpResponse("You have successfully unsubscribed.")

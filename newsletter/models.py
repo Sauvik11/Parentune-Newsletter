@@ -6,6 +6,10 @@ class User(models.Model):
     email = models.EmailField(unique=True)
     subscription_status = models.BooleanField(default=False)
 
+    def unsubscribe(self):
+        self.subscription_status = False
+        self.save()
+
 class Log(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
