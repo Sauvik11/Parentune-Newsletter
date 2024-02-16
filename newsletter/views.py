@@ -20,10 +20,10 @@ class Subscribe(CreateView):
     model = User
     template_name = 'newsletter/home.html'
     fields = ['first_name', 'last_name', 'email']
-    success_url = reverse_lazy('thankyou')  # Change 'home' to the name of your home view
+    success_url = reverse_lazy('thankyou')  
 
     def form_valid(self, form):
-        # Additional logic before saving the form
+       
         form.instance.subscription_status = True  # Assuming subscription is true on form submission
         return super().form_valid(form)
 
