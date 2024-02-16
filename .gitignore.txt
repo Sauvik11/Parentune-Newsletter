@@ -1,0 +1,18 @@
+# Virtual Environment
+venv/
+
+# Database
+db.sqlite3
+
+# Static files
+staticfiles/
+
+# Local development settings
+local_settings.py
+
+# IDE files
+.vscode/
+*.pyc
+
+# Environment variables file
+.env

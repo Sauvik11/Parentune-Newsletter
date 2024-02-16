@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Parentune</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Lato:900">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-newsletter">
+		<div class="modal-content">
+			<form action="{% url 'subscribe' %}" method="post">
+				{% csrf_token %}
+				<div class="modal-body text-center">
+					<h4>Subscribe</h4>    
+					<p>Subscribe to our newsletter to receive the latest updates and promotions.</p>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="First Name" name="first_name" required>
+					</div>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Last Name" name="last_name" required>
+					</div>
+					<div class="form-group">
+						<input type="email" class="form-control" placeholder="Enter your email" name="email" required>
+						<input type="submit" class="btn btn-primary" value="Subscribe">
+					</div>
+				</div>
+			</form>	
+		</div>
+	</div>
+</div>
+<section class="subscribe" style="background-color: #d66c21; color: #ffffff; padding: 50px 0; text-align: center;">
+	<div class="container">
+	  <div class="section-header">
+		<h2>Welcome Parent!</h2>
+		<p>Lorem Ipsum is simply dummy text of the industry.</p>
+	  </div>
+
+	 
+		  <div class="col-auto">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="background-color: #cfae29; color: #000000; padding: 10px 20px;">
+				 Subscribe To Our Newsletter
+			</button>
+		  </div>
+		</div>
+	  </form>
+
+	</div>
+  </section>
+
+
+
+<div class="col-auto" style="text-align: center" >
+	<p class="hint-text"><strong>Note:</strong> Please use the below button for Updating email Newsletter. (Only For Admin)</p>
+	<button type="button" class="btn btn-sm btn-primary " data-toggle="modal" data-target="#newsletterModal" style="background-color: #007bff; color: #ffffff; padding: 10px;">
+		Add Newsletter
+	</button>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="newsletterModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Add Newsletter</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<!-- Newsletter Form -->
+				<form method="post" action="{% url 'add_newsletter' %}">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="id_title">Title:</label>
+						<input type="text" id="id_title" name="title" value="{{ form.title.value }}" required>
+					</div>
+				
+					<div class="form-group">
+						<label for="id_content">Content:</label>
+						<textarea id="id_content" name="content" required>{{ form.content.value }}</textarea>
+					</div>
+				
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
